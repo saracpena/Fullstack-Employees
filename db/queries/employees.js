@@ -24,7 +24,13 @@ export async function createEmployee({ name, birthday, salary }) {
 
 /** @returns all employees */
 export async function getEmployees() {
-  // TODO
+  const SQL = `
+    SELECT *
+    FROM employees;
+  `;
+
+  const response = await db.query(SQL);
+  return reponse.rows; //returns array of employees VS [0] returns the first employee object
 }
 
 /**
@@ -32,7 +38,18 @@ export async function getEmployees() {
  * @returns undefined if employee with the given id does not exist
  */
 export async function getEmployee(id) {
-  // TODO
+  // Finds one employee safely by their unique ID.
+  const SQL = `
+    SELECT *
+    FROM employees
+    WHERE id = $1;
+  `;
+  /* $1   → first supplied value
+[id] → the value supplied for $1 */
+
+  const response = await db.query(SQL, [id]);
+
+  return response.rows[0];
 }
 
 /**
@@ -40,7 +57,20 @@ export async function getEmployee(id) {
  * @returns undefined if employee with the given id does not exist
  */
 export async function updateEmployee({ id, name, birthday, salary }) {
-  // TODO
+  const SQL = `
+    UPDATE employees
+    SET
+      name = $2,
+      birthday = $3,
+      salary = $4
+    WHERE id = $1
+    RETURNING *;
+  `;
+// $1, $2, etc. are placeholders matching the values array in the same order.
+
+  const response = await db.query(SQL, [id, name, birthday, salary]);
+
+  return response.rows[0];
 }
 
 /**
@@ -48,5 +78,14 @@ export async function updateEmployee({ id, name, birthday, salary }) {
  * @returns undefined if employee with the given id does not exist
  */
 export async function deleteEmployee(id) {
-  // TODO
+  // Deletes the employee matching the provided ID and returns the deleted record.
+  const SQL = `
+    DELETE FROM employees
+    WHERE id = $1
+    RETURNING *;
+  `;
+
+  const response = await db.query(SQL, [id]);
+
+  return response.rows[0];
 }
