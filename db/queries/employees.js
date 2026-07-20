@@ -4,7 +4,7 @@ import db from "../client.js";
 export async function createEmployee({ name, birthday, salary }) {
   // Inserts one employee safely and returns the newly created database record.
 
-  /*Understanding $1, $2, $3 placeholders 
+  /*Understanding $1, $2, $3 placeholders which PREVENTS SQL INJECTION!
   $1 → name       → first array value
   $2 → birthday   → second array value
   $3 → salary     → third array value*/
