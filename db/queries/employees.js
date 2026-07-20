@@ -1,6 +1,23 @@
+import db from "../client.js";
+
 /** @returns the employee created according to the provided details */
 export async function createEmployee({ name, birthday, salary }) {
-  // TODO
+  // Inserts one employee safely and returns the newly created database record.
+
+  /*Understanding $1, $2, $3 placeholders 
+  $1 → name       → first array value
+  $2 → birthday   → second array value
+  $3 → salary     → third array value*/
+  const result = await db.query(
+    `
+      INSERT INTO employees (name, birthday, salary)
+      VALUES ($1, $2, $3) 
+      RETURNING *;
+    `,
+    [name, birthday, salary],
+  );
+
+  return result.rows[0]; //returns that one employee object.
 }
 
 // === Part 2 ===
