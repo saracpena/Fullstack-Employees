@@ -2,4 +2,11 @@ import express from "express";
 const app = express();
 export default app;
 
-// TODO: this file!
+app.use(express.json()); //convert incoming JSON req bodies into req.body
+
+//Responds tp a GET request made to the APIs root path
+app.get("/", (req, res) => {
+  res.send("Welcome to the Fullstack Employees API.");
+});
+
+export default app;

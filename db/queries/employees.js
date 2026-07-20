@@ -30,7 +30,7 @@ export async function getEmployees() {
   `;
 
   const response = await db.query(SQL);
-  return reponse.rows; //returns array of employees VS [0] returns the first employee object
+  return response.rows; //returns array of employees VS [0] returns the first employee object
 }
 
 /**
